@@ -1,0 +1,22 @@
+{
+  "name": "shortest-path",
+  "version": "1.0.0",
+  "description": "[人材獲得作戦・４　試験問題ほか](http://okajima.air-nifty.com/b/2010/01/post-abc6.html)をTypeScriptで解く。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmoka/shortest-path.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tmoka/shortest-path/issues"
+  },
+  "homepage": "https://github.com/tmoka/shortest-path#readme",
+  "dependencies": {
+    "typescript": "^4.7.4"
+  }
+}
