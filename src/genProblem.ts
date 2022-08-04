@@ -22,8 +22,8 @@ const generateProblem = () => {
   file.on('err', (err) => {
     console.error('ファイル出力時にエラーが発生しました:', err);
   });
-  board.forEach((v) => {
-    file.write(v.join('') + '\n');
+  board.map((row, i) => {
+    i === height - 1 ? file.write(row.join('')) : file.write(row.join('') + '\n');
   });
   file.end();
 };
