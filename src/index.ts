@@ -3,6 +3,10 @@ import { BoardItemType, BoardType, PointsType, PointType } from './types';
 
 const filePath = process.argv[2];
 
+if (!filePath) {
+  console.error('解く問題を指定してください');
+}
+
 fs.readFile(filePath, 'utf-8', (err, data) => {
   if (err) {
     console.error('ファイルが読み込めません: ', err);
