@@ -1,7 +1,7 @@
 import * as fs from 'fs';
-import { BoardType, PointType } from './types';
+import { BoardItemType, BoardType, PointsType, PointType } from './types';
 
-const filePath = '../problems/1/problem1.txt';
+const filePath = process.argv[2];
 
 fs.readFile(filePath, 'utf-8', (err, data) => {
   if (err) {
@@ -12,7 +12,13 @@ fs.readFile(filePath, 'utf-8', (err, data) => {
 });
 
 const solver = (board: BoardType) => {
-  getStartAndGoal(board);
+  const { startPoint, goalPoint } = getStartAndGoal(board);
+  const nextPoints: PointsType = [startPoint];
+  board[startPoint.y][startPoint.x] = 0;
+  let dist = 0;
+
+  search(board, nextPoints, dist);
+  console.log(board);
 };
 
 const getStartAndGoal = (board: BoardType): { startPoint: PointType; goalPoint: PointType } => {
@@ -31,4 +37,51 @@ const getStartAndGoal = (board: BoardType): { startPoint: PointType; goalPoint: 
     console.error('入力データにゴール地点がありません');
   }
   return { startPoint, goalPoint };
+};
+
+const search = (board: BoardType, nextPoints: PointsType, dist: number) => {
+  let nextSearchPoints: PointsType = [];
+  dist = 1;
+  while (nextPoints.length) {
+    const searchPoint = { x: nextPoints[0].x, y: nextPoints[0].y };
+    // 左を探索
+    if (judge(board[searchPoint.y][searchPoint.x - 1])) {
+      nextSearchPoints.push({ x: searchPoint.x - 1, y: searchPoint.y });
+      board[searchPoint.y][searchPoint.x - 1] = dist;
+    }
+    // 右を探索
+    if (judge(board[searchPoint.y][searchPoint.x + 1])) {
+      nextSearchPoints.push({ x: searchPoint.x + 1, y: searchPoint.y });
+      board[searchPoint.y][searchPoint.x + 1] = dist;
+    }
+    // 上を探索
+    if (judge(board[searchPoint.y - 1][searchPoint.x])) {
+      nextSearchPoints.push({ x: searchPoint.x, y: searchPoint.y - 1 });
+      board[searchPoint.y - 1][searchPoint.x] = dist;
+    }
+    // 下を探索
+    if (judge(board[searchPoint.y + 1][searchPoint.x])) {
+      nextSearchPoints.push({ x: searchPoint.x, y: searchPoint.y + 1 });
+      board[searchPoint.y + 1][searchPoint.x] = dist;
+    }
+    nextPoints.shift();
+
+    if (!nextPoints.length) {
+      dist++;
+      nextPoints = [...nextSearchPoints];
+      nextSearchPoints = [];
+    }
+  }
+};
+
+const judge = (boardItem: BoardItemType) => {
+  if (boardItem === ' ') {
+    return true;
+  } else if (boardItem === 'G') {
+    console.log('GOAL!!!!!!');
+    return;
+  }
+  {
+    return false;
+  }
 };
